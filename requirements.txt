@@ -1,0 +1,3 @@
+pypinyin~=0.51.0
+requests~=2.32.2
+loguru~=0.7.2
