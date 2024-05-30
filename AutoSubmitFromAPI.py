@@ -41,9 +41,10 @@ def init_content(content):
 
 
 def init_img_path(start: int, end: int, current: int):
-    if end > (current + 1) >= start:
+    if end >= (current + 1) >= start:
         return "img/" + str(current + 1) + ".png"
     else:
+        logger.warning("图片序号超出范围，已调整为默认值")
         return "img/" + str(start) + ".png"
 
 
@@ -86,11 +87,11 @@ def init_headers(x_id_token: str):
     return headers
 
 
-def submit_data(x_id_token: str, labour_type: str, times: int):
+def submit_data(x_id_token: str, labour_type: str, times: int, current: int):
     headers = init_headers(x_id_token)
     content = init_content(labour_type)
     labour_type = init_type(labour_type)
-    img_path = init_img_path(1, 10, times)
+    img_path = init_img_path(1, times, current)
     tm = init_start_time_and_end_time(2022, 2024)
     start_time = tm[0]
     end_time = tm[1]
@@ -127,8 +128,8 @@ def main():
                 break
             times = int(input("请输入劳动次数: "))
             for i in range(times):
-                submit_data(x_id_token, labour_type, i)
-                logger.info("第{}次{}已完成".format(i + 1, labour_type))
+                submit_data(x_id_token, labour_type, times, i)
+                logger.info("第{}次{}已完成\n".format(i + 1, labour_type))
     except Exception as _:
         logger.error("程序出错")
 
